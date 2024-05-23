@@ -1,17 +1,33 @@
-import './Expenses.css'
-import ExpenseItem from "./ExpenseItem.jsx";
-import Card from "../UI/Card";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ExpenseItem from './ExpenseItem';
 
-function Expenses(props) {
-
+const Expenses = ({ items, onDeleteExpense }) => {
   return (
-    <Card className="expenses">
-      <ExpenseItem title={props.items[0].title} amount={props.items[0].amount} date={props.items[0].date}/>
-      <ExpenseItem title={props.items[1].title} amount={props.items[1].amount} date={props.items[1].date}/>
-      <ExpenseItem title={props.items[2].title} amount={props.items[2].amount} date={props.items[2].date}/>
-      <ExpenseItem title={props.items[3].title} amount={props.items[3].amount} date={props.items[3].date}/>
-    </Card>
-  )
-}
+    <div>
+      {items.map((expense) => (
+        <ExpenseItem
+          key={expense.id}
+          id={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+          onDelete={onDeleteExpense}
+        />
+      ))}
+    </div>
+  );
+};
 
+Expenses.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
+      date: PropTypes.instanceOf(Date).isRequired,
+    })
+  ).isRequired,
+  onDeleteExpense: PropTypes.func.isRequired,
+};
 export default Expenses;
